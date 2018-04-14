@@ -7,8 +7,8 @@ import {
   Linking
 } from 'react-native';
 import Card from './Card';
-import CardSection from './CardSection';
-import Button from './Button';
+import CardSection from './common/CardSection';
+import Button from './common/Button';
 
 export default class CardDetail extends Component {
   constructor(props) {
@@ -19,8 +19,7 @@ export default class CardDetail extends Component {
   render() {
     return (
       <Card>
-        <View style={styles.containerStyle}>
-        {/* <CardSection> */}
+        <CardSection>
           <View style={ styles.thumbnailContainerStyle }>
             <Image
               style={ styles.thumbnailStyle }
@@ -31,20 +30,21 @@ export default class CardDetail extends Component {
             <Text style={ styles.headerTextStyle }>{ this.props.record.title }</Text>
             <Text> { this.props.record.artist }</Text>
           </View>
-        </View>
-        {/* </CardSection> */}
-        <View style={styles.containerStyle}>
+        </CardSection>
+
+        <CardSection>
           <Image
             style={ styles.imageStyle }
             source={{ uri: this.props.record.image }}
           />
-        </View>
-        <View style={styles.containerStyle}>
+        </CardSection>
+
+        <CardSection>
           <Button
             onPress={() => {Linking.openURL(this.props.record.url)}}>
             Buy Now
           </Button>
-        </View>
+        </CardSection>
       </Card>
     )
   }
@@ -53,7 +53,7 @@ export default class CardDetail extends Component {
 const styles = StyleSheet.create({
   headerContentStyle: {
     flexDirection: 'column',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   headerTextStyle: {
     fontSize: 18
@@ -66,16 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 10,
-    marginRight: 10
-  },
-  containerStyle: {
-    borderBottomWidth: 1,
-    padding: 5,
-    backgroundColor: '#fff',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    borderColor: '#ddd',
-    position: 'relative'
+    marginRight: 10,
   },
   imageStyle: {
     height: 300,
