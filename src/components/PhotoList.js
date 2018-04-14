@@ -1,7 +1,8 @@
-import React from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, ScrollView, ActivityIndicator } from 'react-native';
+import CardDetail from './CardDetail'
 
-export default class Header extends React.Component {
+export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = { isLoading: true }
@@ -28,6 +29,12 @@ export default class Header extends React.Component {
       });
   }
 
+  renderAlbums() {
+    return this.state.dataSource.map(album => {
+      return <CardDetail key={ album.title } record={ album } ></CardDetail>
+    })
+  }
+
   render() {
     if (this.state.isLoading) {
       return (
@@ -38,9 +45,9 @@ export default class Header extends React.Component {
     }
 
     return (
-      <View>
-        <Text>{ this.props.dataSource }</Text>
-      </View>
+      <ScrollView>
+        { this.renderAlbums() }
+      </ScrollView>
     );
   }
 }
