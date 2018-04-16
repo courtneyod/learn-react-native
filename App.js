@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, AppRegistry, ScrollView } from 'react-native';
 import firebase from 'firebase';
+import { Provider } from 'react-redux';
+// import { createStore } from 'redux';
+import configureStore from './store/configureStore';
+
 import Header from './src/components/common/Header';
 import Button from './src/components/common/Button';
 import Spinner from './src/components/common/Spinner';
 import PhotoList from './src/components/PhotoList';
-import Auth from './src/components/Auth';
 import LoginForm from './src/components/LoginForm';
+
+const store = configureStore();
 
 export default class App extends Component {
   constructor(props) {
@@ -40,14 +45,20 @@ export default class App extends Component {
       case true:
         return (
           <ScrollView>
-            {/* <PhotoList></PhotoList> */}
-            <Button onPress={() => firebase.auth().signOut()}>
-              Log Out
-            </Button>
+            <Provider store={store}>
+              {/* <PhotoList></PhotoList> */}
+              <Button onPress={() => firebase.auth().signOut()}>
+                Log Out
+              </Button>
+            </Provider>
           </ScrollView>
       );
       case false:
-        return <LoginForm></LoginForm>;
+        return (
+          <Provider store={store}>
+            <LoginForm></LoginForm>
+          </Provider>
+        );
       default:
         return (
           <ScrollView>
