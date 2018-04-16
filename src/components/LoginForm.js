@@ -4,9 +4,9 @@ import firebase from 'firebase';
 import Button from './common/Button';
 import Card from './Card';
 import CardSection from './common/CardSection';
+import Spinner from './common/Spinner';
 import Input from './common/Input';
-import { fail } from 'assert';
-import { WSAEPROVIDERFAILEDINIT } from 'constants';
+
 
 export default class Header extends Component {
   constructor(props) {
@@ -15,33 +15,47 @@ export default class Header extends Component {
       password: '',
       email: '',
       error: '',
-      loading: false
+      loading: false,
     }
   }
   onButtonPress() {
     const { email, password } = this.state;
-    debugger
     this.setState({ error: '', loading: true });
+
     firebase.auth().signInWithEmailAndPassword(email, password)
       .then(this.onLoginSuccess.bind(this))
-      .catch(() => {
+      .catch((error) => {
+        console.log(error.message, 'error from signing in')
         firebase.auth().createUserWithEmailAndPassword(email, password)
           .then(this.onLoginSuccess.bind(this))
           .catch(this.onLoginFail.bind(this))
       })
   }
 
-  onLoginSuccess() {
+  onLoginSuccess(response) {
+    console.log(response, 'success for signing in')
     this.setState({
       email: '',
       password: '',
       loading: false,
       error: ''
-    })
+    });
   }
 
-  onLoginFail() {
-    this.setState({ error: 'Authentication failed.', loading: false })
+  onLoginFail(error) {
+    this.setState({ error: error.message, loading: false });
+  }
+
+  renderButton() {
+    if(this.state.loading){
+      return <Spinner size="small" />;
+    } else  {
+      return (
+        <Button onPress={this.onButtonPress.bind(this)}>
+          Login
+        </Button>
+      );
+    }
   }
 
   render() {
@@ -54,8 +68,8 @@ export default class Header extends Component {
               placeholder='user@gmail.com'
               label='Email'
               value={ this.state.email }
-              onChangeText={ text => this.setState({ email: text })}
-            />
+              onChangeText={text => this.setState({ email: text })}
+          />
           </CardSection>
 
           <CardSection>
@@ -64,7 +78,7 @@ export default class Header extends Component {
               placeholder='password'
               label='Password'
               value={ this.state.password }
-              onChangeText={ text => this.setState({ password: text })}
+              onChangeText={text => this.setState({ password: text })}
             />
           </CardSection>
 
@@ -73,9 +87,7 @@ export default class Header extends Component {
           </Text>
 
           <CardSection>
-            <Button onPress={ this.onButtonPress.bind(this) }>
-              Login
-            </Button>
+            { this.renderButton() }
           </CardSection>
         </Card>
       </ScrollView>

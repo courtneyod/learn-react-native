@@ -18,7 +18,7 @@ export default class Input extends Component {
           autoCorrect={ false }
           style={ styles.inputStyle }
           value={ this.props.value }
-          onChange={ this.props.onChangeText}
+          onChangeText={ this.props.onChangeText}
         />
       </View>
     );
