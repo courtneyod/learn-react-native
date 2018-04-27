@@ -13,7 +13,7 @@ import Button from './common/Button';
 export default class CardDetail extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props, 'popopopo', this.props.record.title)
+    console.log(this.props, 'CARDDETAIL', this.props.item.title)
   }
 
   render() {
@@ -23,25 +23,25 @@ export default class CardDetail extends Component {
           <View style={ styles.thumbnailContainerStyle }>
             <Image
               style={ styles.thumbnailStyle }
-              source={{ uri: this.props.record.thumbnail_image }}
+              source={{ uri: this.props.item.thumbnail_image }}
             />
           </View>
           <View style={ styles.headerContentStyle } >
-            <Text style={ styles.headerTextStyle }>{ this.props.record.title }</Text>
-            <Text> { this.props.record.artist }</Text>
+            <Text style={ styles.headerTextStyle }>{ this.props.item.title }</Text>
+            <Text> { this.props.item.artist }</Text>
           </View>
         </CardSection>
 
         <CardSection>
           <Image
             style={ styles.imageStyle }
-            source={{ uri: this.props.record.image }}
+            source={{ uri: this.props.item.image }}
           />
         </CardSection>
 
         <CardSection>
           <Button
-            onPress={() => {Linking.openURL(this.props.record.url)}}>
+            onPress={() => {Linking.openURL(this.props.item.url)}}>
             Buy Now
           </Button>
         </CardSection>

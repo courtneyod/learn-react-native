@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, AppRegistry, ScrollView } from 'react-native';
 import firebase from 'firebase';
 import { Provider } from 'react-redux';
-// import { createStore } from 'redux';
-import configureStore from './store/configureStore';
+import configureStore from './src/store/configureStore';
 
 import Header from './src/components/common/Header';
 import Button from './src/components/common/Button';
@@ -17,7 +16,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: null
+      loggedIn: true
     }
   }
 
@@ -44,14 +43,14 @@ export default class App extends Component {
     switch(this.state.loggedIn) {
       case true:
         return (
-          <ScrollView>
-            <Provider store={store}>
-              {/* <PhotoList></PhotoList> */}
+          <Provider store={store}>
+            <ScrollView>
+              <PhotoList></PhotoList>
               <Button onPress={() => firebase.auth().signOut()}>
                 Log Out
               </Button>
-            </Provider>
-          </ScrollView>
+            </ScrollView>
+          </Provider>
       );
       case false:
         return (
